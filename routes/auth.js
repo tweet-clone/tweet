@@ -1,13 +1,12 @@
 const express = require('express');
 const router = express.Router();
 
-// GET /items Router와 Controller를 연결합니다.
-router.get('/login', (req, res) => {
+// GET /items Router와 Controller를 연결합니다
+const auth = require('../controllers/auth');
 
-});
+router.post('/signup', auth.signup);
 
-router.get('/signup', (req, res) => {
-});
+router.post('/login', auth.login);
 
 router.get('/me', (req, res) => {
 });
