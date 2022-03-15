@@ -1,19 +1,13 @@
-const dotenv = require('dotenv');
+const dotenv = require("dotenv");
 dotenv.config();
 
 const config = {
   development: {
-    host: 'localhost',
-    user: 'root',
+    host: process.env.DATABASE_HOST,
+    user: process.env.DATABASE_USER,
     password: process.env.DATABASE_PASSWORD,
-    database: 'tweet'
+    database: process.env.DATABASE_NAME,
   },
-  test: {
-    host: 'localhost',
-    user: 'root',
-    password: process.env.DATABASE_PASSWORD,
-    database: 'tweet'
-  }
 };
 
 module.exports = config;
