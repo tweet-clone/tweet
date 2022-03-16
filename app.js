@@ -11,7 +11,7 @@ sequelize.sync({ force : false })
     .catch((err) => {
         console.error(err)
     })
-
+ 
 const app = express();
 
 app.use(cors());
