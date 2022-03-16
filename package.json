@@ -28,7 +28,6 @@
     "express": "^4.17.3",
     "helmet": "^5.0.2",
     "morgan": "^1.10.0",
-    "mysql": "^2.18.1",
     "mysql2": "^2.3.3",
     "sequelize": "^6.17.0",
     "sequelize-cli": "^6.4.1"
