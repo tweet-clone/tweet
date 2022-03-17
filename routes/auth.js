@@ -4,7 +4,7 @@ const authController = require("../controllers/auth");
 
 router.post("/signup", authController.signup.post);
 
-router.post("/login");
+router.post("/login", authController.login.post);
 
 router.get("/me", (req, res) => {});
 
