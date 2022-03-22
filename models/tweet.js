@@ -1,26 +1,30 @@
 const Sequelize = require('sequelize');
  
-module.exports = class User extends Sequelize.Model {
+module.exports = class Tweet extends Sequelize.Model {
   static init(sequelize) {
     return super.init({
-      email: {
-        type: Sequelize.STRING(50),
-        allowNull: false,
-      }, 
-      password: {
+      content: {
         type: Sequelize.STRING(255),
         allowNull: true,
       },
-      nickname: {
+      picture: {
         type: Sequelize.STRING(255),
+        allowNull: true,
+      },
+      totalLike: {
+        type: Sequelize.INTEGER,
+        allowNull: true,
+      },
+      totalReply: {
+        type: Sequelize.INTEGER,
         allowNull: true,
       },
     }, {
       sequelize,
       timestamps: true,
       underscored: false,
-      modelName: 'User',
-      tableName: 'users',
+      modelName: 'Tweet',
+      tableName: 'tweets',
       paranoid: false,
       // mb4 -> 이모티콘도 사용 가능 
       charset: 'utf8mb4',
@@ -28,6 +32,6 @@ module.exports = class User extends Sequelize.Model {
     });
   }
   static associate(db) {
-   db.User.hasMany(db.Tweet)
+    db.Tweet.belongsTo(db.User);
   }
 }; 

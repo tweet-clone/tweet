@@ -5,6 +5,7 @@ const authRouter = require('./auth');
 const tweetRouter = require('./tweet')
 const mypageRouter = require('./mypage')
 
+// router.use('/auth', authRouter);
 router.use('/auth', authRouter);
 router.use('/tweet', tweetRouter);
 router.use('/mypage', mypageRouter);

@@ -1,19 +1,18 @@
 const express = require('express');
 const router = express.Router();
-
+const tweet = require('../controllers/tweet');
+const loginAuth = require('../middlewares/auth.js');
 
 // 트윗
-router.get('/', (req, res) => {
-});
+router.get('/', loginAuth, tweet.get);
 
-router.post('/', (req, res) => {
-});
+router.post('/', loginAuth, tweet.post);
 
-router.put('/:id', (req, res) => {
-});
+router.put('/:id', loginAuth, tweet.update);
 
-router.delete('/:id', (req, res) => {
-});
+router.delete('/:id', loginAuth, tweet.del);
+
+
 
 // 트윗 댓글
 router.get(':id/reply', (req, res) => {
