@@ -13,7 +13,6 @@ module.exports = {
           .json({ message: "이메일, 비밀번호, 닉네임 필수 입력" });
       }
 
-<<<<<<< HEAD
       const find = await models.signup.findUser(email);
 
       if (find) {
@@ -24,35 +23,23 @@ module.exports = {
         .hash(password, config.bcrypt.saltRounds)
         .catch((err) => console.log(err));
 
-      // console.log(hashed);
-      // 비밀번호 해쉬화 한 후 회원가입 할 때 그 비밀번호를 넣도록
-
       const user = await models.signup.post(email, hashed, nickname);
       console.log(user);
       res.status(201).json(user);
-=======
-      models.signup.findUser(email, (error, result) => {
-        console.log("유저찾기")
-        if (error) {
-          return res.status(409).json({ message: "이메일이 이미 있습니다." });
-        }else{
-          // 비밀번호 해쉬화 한 후 회원가입 할 때 그 비밀번호를 넣도록
-          bcrypt.hash(password,10,(error,hash) => {
-            if(error) return res.status(500).json({ message: "비번암호화실패"})
-            return models.signup.post(email, hash, nickname, (error, result) => {
-              console.log("진짜 가입")
-              if (error) {
-                return res.status(409).json({message : "signup error"});
-              } else {
-                return res.status(201).json(result);
-              }
-            })
-          })
-        }
-      });
->>>>>>> 4de579a2acdcb6fb6080ce6d54b7c6661a93a574
+
+      //회원가입 하면 토큰 같이 발행 (create token)
     },
   },
 };
 
 // 로그인
+
+// express-validator
+// jwt - secret_key , expried => .env
+
+// 아이디와 비밀번호를 입력
+// 데이터베이스에 있는 아이디와 비밀번호(해쉬)가 맞는지
+// token
+
+// 회원가입 유저한테 토큰이 발행
+// 클라이언트 측에서 아이디와 비밀번호를 서버로 보냄

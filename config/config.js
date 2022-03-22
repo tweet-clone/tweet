@@ -11,6 +11,10 @@ const config = {
   bcrypt: {
     saltRounds: parseInt(process.env.BCRYPT_SALT_ROUNDS),
   },
+  jwt: {
+    secret_key: process.env.SECRET_KEY,
+    expired_in: process.env.EXPIRED_IN,
+  },
 };
 
 module.exports = config;
