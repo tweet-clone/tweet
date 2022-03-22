@@ -14,7 +14,11 @@ const config = {
   jwt: {
     secret_key: process.env.SECRET_KEY,
     expired_in: process.env.EXPIRED_IN,
+<<<<<<< HEAD
   },
+=======
+  }, 
+>>>>>>> a53a0f18798b850556bd29733bc28c524215eb46
 };
 
 module.exports = config;
