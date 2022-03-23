@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const tweet = require('../controllers/tweet');
+const like = require('../controllers/like');
 const loginAuth = require('../middlewares/auth.js');
 
 // 트윗
@@ -28,11 +29,9 @@ router.delete(':id/reply/:comId', (req, res) => {
 });
 
 // 좋아요
-router.post(':id/reply/:comId', (req, res) => {
-});
+router.post('/like/:id', loginAuth, like.twLike);
 
-router.delete(':id/reply/:comId', (req, res) => {
-});
+router.delete('/dislike/:id', loginAuth, like.twDisLike);
 
 // 팔로워
 router.post('follow/:id', (req, res) => {

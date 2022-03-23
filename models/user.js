@@ -29,5 +29,9 @@ module.exports = class User extends Sequelize.Model {
   }
   static associate(db) {
    db.User.hasMany(db.Tweet)
+   db.User.belongsToMany(db.Tweet, {
+      as: 'Liked',
+      through: 'TweetLike',
+    })
   }
 }; 
