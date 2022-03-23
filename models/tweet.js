@@ -48,13 +48,18 @@ module.exports = {
   },
 
   delete: (tweetId, id) => {
-    const queryString = `DELETE FROM tweet WHERE id = ? AND user_id = ?`;
-    const params = [tweetId, id]
+    const queryString1 = `SELECT * FROM tweet WHERE id = ?`;
+    const params1 = [tweetId]
+
+    const queryString2 = `DELETE FROM tweet WHERE id = ? AND user_id = ?`;
+    const params2 = [tweetId, id]
 
     return db
-    .execute(queryString, params)
-    .then(result => [result[0].affectedRows,tweetId])
+    .execute(queryString1, params1)
+    .then(selectedTweet => {
+      return db.execute(queryString2,params2)
+      .then(result => [selectedTweet[0][0],tweetId])
+    })
     .catch((err) => console.log(err))
   }
-
 }

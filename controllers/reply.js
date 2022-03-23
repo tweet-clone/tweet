@@ -24,7 +24,7 @@ module.exports = {
       if(!userId || !tweetId || !content) return res.status(404).json({ message : "userId, tweetId, content must exist" })
       try{
         const result = await commentModel.post(userId, tweetId, content)
-        return res.status(201).json({ data: result[0], message: "ok" })
+        return res.status(201).json({ data: result, message: "ok" })
       }catch(err){
         //서버 자체 에러 
         res.sendStatus(500)

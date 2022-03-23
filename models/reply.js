@@ -14,12 +14,19 @@ module.exports = {
   
   //게시물에 댓글쓰기
   post: (userId, tweetId, content) => {
-    const queryString = `INSERT INTO reply (user_id, tweet_id, content) VALUES (?,?,?)`;
-    const params = [userId, tweetId, content]
+    const queryString1 = `INSERT INTO reply (user_id, tweet_id, content) VALUES (?,?,?)`;
+    const params1 = [userId, tweetId, content]
+
+    const queryString2 = `SELECT * FROM reply WHERE user_id = ? AND tweet_id = ?`;
+    const params2 = [userId, tweetId]
 
     return db
-    .execute(queryString, params)
-    .then(result => result[0].insertId)
+    .execute(queryString1, params1)
+    .then(result => result)
+    .then(() => db.execute(queryString2,params2))
+    .then(result => {
+      return result[0][0]
+    })
     .catch((err) => console.log(err))
   }
 }

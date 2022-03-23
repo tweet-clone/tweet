@@ -43,8 +43,8 @@ module.exports = {
       
       if(!userId || !tweetId) return res.status(400).json({ message: "userId, tweetId must exist"})
 
-      const [deleteCount, deletedTweet] = await tweetmodel.delete(tweetId , userId)
-      return res.status(201).json({ deletedTweet, deleteCount, message : "ok"})
+      const [deletedTweet,tid] = await tweetmodel.delete(tweetId , userId)
+      return res.status(201).json({ deletedTweet, message : "ok"})
     }
 }
 
