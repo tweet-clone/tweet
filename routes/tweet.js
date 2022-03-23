@@ -1,14 +1,15 @@
 const express = require("express");
 const router = express.Router();
-
+const isAuth = require("../middleware/auth");
+const tweetController = require("../controllers/tweet");
 // 트윗
-router.get("/", (req, res) => {});
+router.get("/", isAuth.authMe.get, tweetController.get);
 
-router.post("/", (req, res) => {});
+router.post("/", isAuth.authMe.get, tweetController.post);
 
-router.put("/:id", (req, res) => {});
+router.put("/:id", isAuth.authMe.get, tweetController.put);
 
-router.delete("/:id", (req, res) => {});
+router.delete("/:id", isAuth.authMe.get, tweetController.delete);
 
 // 트윗 댓글
 router.get(":id/reply", (req, res) => {});

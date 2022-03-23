@@ -17,6 +17,6 @@ app.use(express.json());
 app.use("/", indexRouter);
 
 // const
-app.listen(3000, () => {
-  console.log(`3000번 포트에서 대기중`);
+app.listen(3306, () => {
+  console.log(`3306번 포트에서 대기중`);
 });
