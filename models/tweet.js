@@ -79,5 +79,6 @@ module.exports = {
         return deleted
       })
     })
+    .catch((err) => console.log(err))
   }
 }
