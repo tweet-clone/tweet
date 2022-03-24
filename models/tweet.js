@@ -1,7 +1,7 @@
-const db = require("../db");
+const db = require('../db');
 
 const join =
-  "SELECT t.id, t.user_id ,u.nickname, t.content, t.picture, t.total_reply, t.total_like,  t.created_at FROM tweet as t JOIN user as u ON u.id = t.user_id";
+  'SELECT t.id, t.user_id , u.nickname, t.content, t.picture, t.total_reply, t.total_like,  t.created_at FROM tweet as t JOIN user as u ON u.id = t.user_id';
 
 module.exports = {
   getAll: () => {
@@ -31,19 +31,19 @@ module.exports = {
 
   post: (content, userId, picture) => {
     const queryString =
-      "INSERT INTO tweet (content, user_id ,picture) VALUES (?,?,?) ";
+      'INSERT INTO tweet (content, user_id ,picture) VALUES (?,?,?) ';
 
     const params = [content, userId, picture];
 
     return db
       .execute(queryString, params)
-      .then((result) => result[0][0])
+      .then((result) => result[0])
       .catch((err) => console.log(err));
   },
 
   update: (tweetId, content, picture) => {
     const queryString =
-      "UPDATE tweet SET content = (?), picture = (?) WHERE id = (?)";
+      'UPDATE tweet SET content = (?), picture = (?) WHERE id = (?)';
     const params = [content, picture, tweetId];
 
     return db
@@ -52,8 +52,11 @@ module.exports = {
       .catch((err) => console.log(err));
   },
 
+  // 댓글이 있을 경우 댓글 먼저 삭제
+  // 그 다음 트윗 삭제
+
   delete: (tweetId) => {
-    const queryString = "DELETE FROM tweet WHERE ID = (?)";
+    const queryString = 'DELETE FROM tweet WHERE ID = (?)';
     const params = [tweetId];
 
     return db.execute(queryString, params);

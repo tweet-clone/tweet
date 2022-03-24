@@ -1,8 +1,8 @@
-const db = require("../db");
+const db = require('../db');
 
 module.exports = {
   findUser: (email) => {
-    const queryString = "SELECT * FROM user WHERE email = ?";
+    const queryString = 'SELECT * FROM user WHERE email = ?';
     const params = [email];
 
     return db
@@ -12,10 +12,14 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
+
   post: (email, password, nickname) => {
     const queryString = `INSERT INTO user (email, password, nickname) VALUES (?, ?, ?)`;
     const params = [email, password, nickname];
-    return db.execute(queryString, params).then((result) => result[0].insertId);
+    return db
+      .execute(queryString, params)
+      .then((result) => result[0].insertId)
+      .catch((err) => console.log(err));
   },
 
   //로그인 기능
@@ -23,6 +27,9 @@ module.exports = {
   findId: (id) => {
     const queryString = `SELECT * FROM user WHERE id = ?`;
     const params = [id];
-    return db.execute(queryString, params).then((result) => result[0][0]);
+    return db
+      .execute(queryString, params)
+      .then((result) => result[0][0])
+      .catch((err) => console.log(err));
   },
 };

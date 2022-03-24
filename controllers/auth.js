@@ -1,65 +1,76 @@
-const models = require("../models/user");
-const bcrypt = require("bcrypt");
-const config = require("../config/config");
-const jwt = require("jsonwebtoken");
+const models = require('../models/user');
+const bcrypt = require('bcrypt');
+const config = require('../config/config');
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   signup: {
     post: async (req, res) => {
       const { email, password, nickname } = req.body;
-      if (!email || !password || !nickname) {
-        return res
-          .status(400)
-          .json({ message: "이메일, 비밀번호, 닉네임 필수 입력" });
+
+      // 에러 명확히
+      if (!email) {
+        return res.status(400).json({ message: '이메일 필수 입력' });
+      }
+      if (!password) {
+        return res.status(400).json({ message: ' 비밀번호 필수 입력' });
+      }
+      if (!nickname) {
+        return res.status(400).json({ message: ' 닉네임 필수 입력' });
       }
 
-      const find = await models.findUser(email);
-      if (find) {
-        return res.status(409).json({ message: "중복된 이메일 입니다." });
+      const user = await models.findUser(email);
+      if (user) {
+        return res.status(409).json({ message: '중복된 이메일 입니다.' });
       }
 
-      const hashed = await bcrypt
+      const hashedPassword = await bcrypt
         .hash(password, config.bcrypt.saltRounds)
         .catch((err) => console.log(err));
 
-      const user = await models.post(email, hashed, nickname);
-      console.log(user);
-      res.status(201).json(user);
+      await models.post(email, hashedPassword, nickname);
+      // console.log(user);
+      res.status(201).json({ message: 'ok' });
     },
   },
 
   login: {
     post: async (req, res) => {
       const { email, password } = req.body;
-      if (!email || !password) {
-        return res.status(400).json({ message: "이메일, 비밀번호 필수 입력" });
+
+      // 에러 명확히
+      if (!email) {
+        return res.status(400).json({ message: '이메일 필수 입력' });
+      }
+      if (!password) {
+        return res.status(400).json({ message: '비밀번호 필수 입력' });
       }
 
       //일단 이멜 입력해서 전달
-      const find = await models.findUser(email).catch(console.log);
+      const user = await models.findUser(email);
 
-      if (!find) {
-        return res.status(401).json({ message: "invaild user" });
+      if (!user) {
+        return res.status(401).json({ message: 'invaild user' });
       }
 
       //비번 확인
       //일단
       const isValid = await bcrypt
-        .compare(password, find.password)
+        .compare(password, user.password)
         .catch(console.log);
 
       if (!isValid) {
-        return res.status(401).json({ message: "invaild password" });
+        return res.status(401).json({ message: 'invaild password' });
       }
 
       //jwt토큰 발급해주기
-      const { id } = find;
+      const { id } = user;
       // console.log(id);
       const token = await createJwtToken(id);
       // console.log(token);
       return res
         .status(201)
-        .json({ data: { accessToken: token }, message: "ok" });
+        .json({ data: { accessToken: token }, message: 'ok' });
     },
   },
   me: {
@@ -68,9 +79,9 @@ module.exports = {
       // console.log(req.id);
       const user = await models.findId(req.id);
       if (!user) {
-        return res.status(404).json({ message: "user not found" });
+        return res.status(404).json({ message: 'user not found' });
       }
-      const token = req.get("authorization").split(" ")[1];
+      const token = req.get('authorization').split(' ')[1];
       res.status(200).json({ token: token, email: user.email });
     },
   },
