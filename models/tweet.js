@@ -1,10 +1,11 @@
 const db = require("../db");
 
-// const join = ''
+const join =
+  "SELECT t.id, t.user_id ,u.nickname, t.content, t.picture, t.total_reply, t.total_like,  t.created_at FROM tweet as t JOIN user as u ON u.id = t.user_id";
 
 module.exports = {
   getAll: () => {
-    const queryString = "SELECT * FROM tweet";
+    const queryString = `${join}`;
 
     return db
       .execute(queryString)
@@ -13,8 +14,11 @@ module.exports = {
       })
       .catch((err) => console.log(err));
   },
+
   get: (tweetId) => {
-    const queryString = "SELECT * FROM tweet WHERE id = (?)";
+    // 트윗 하나를 가져 온다. update의 결과 json으로 보내줌 혹은 인증 절차에 사용
+    // tweet.user_id 이용 한다.
+    const queryString = `${join} WHERE t.id = (?)`;
     const params = [tweetId];
 
     return db

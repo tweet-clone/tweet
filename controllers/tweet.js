@@ -27,7 +27,6 @@ module.exports = {
   },
   put: async (req, res) => {
     const tweetId = req.params.id;
-
     const user = await userModels.findId(req.id);
     const tweet = await models.get(tweetId);
 
@@ -40,16 +39,13 @@ module.exports = {
     }
 
     const { content, picture } = req.body;
-
     const updateTweetId = await models.update(tweetId, content, picture);
-
     const updatedTweet = await models.get(updateTweetId);
 
     res.status(200).json({ updatedTweet });
   },
   delete: async (req, res) => {
     const tweetId = req.params.id;
-
     const tweet = await models.get(tweetId);
 
     if (!tweet) {
