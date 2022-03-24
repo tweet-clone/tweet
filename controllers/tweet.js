@@ -59,6 +59,8 @@ module.exports = {
 
   // delete를 통해 삭제
   // isdeleted 컬럼을 생성을 하여 true를 하면 안가져 오도록
+
+  // 트윗 삭제 하면 리플라이도 삭제
   delete: async (req, res) => {
     const tweetId = req.params.id;
 

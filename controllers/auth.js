@@ -12,9 +12,11 @@ module.exports = {
       if (!email) {
         return res.status(400).json({ message: '이메일 필수 입력' });
       }
+
       if (!password) {
         return res.status(400).json({ message: ' 비밀번호 필수 입력' });
       }
+
       if (!nickname) {
         return res.status(400).json({ message: ' 닉네임 필수 입력' });
       }
