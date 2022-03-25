@@ -1,10 +1,11 @@
-const models = require('../models/tweet');
+const replymodels = require('../models/reply');
+const tweetmodels = require('../models/tweet');
 const userModels = require('../models/user');
 
 module.exports = {
   // 모든 트윗 글
   get: async (req, res) => {
-    const tweets = await models.getAll();
+    const tweets = await tweetmodels.getAll();
 
     if (!tweets) {
       return res.status(404).json({ message: 'no tweet' });
@@ -22,7 +23,7 @@ module.exports = {
       return res.status(401).json({ message: 'user is not found' });
     }
 
-    const tweet = await models.post(content, userId, picture);
+    const tweet = await tweetmodels.post(content, userId, picture);
 
     return res.status(201).json({ data: tweet, message: 'tweet ok' });
   },
@@ -30,7 +31,7 @@ module.exports = {
   put: async (req, res) => {
     const tweetId = req.params.id;
     const user = await userModels.findId(req.id);
-    const tweet = await models.get(tweetId);
+    const tweet = await tweetmodels.get(tweetId);
 
     // 트윗 아이디 없으면 예외처리
     if (!tweetId) {
@@ -51,8 +52,8 @@ module.exports = {
     }
 
     const { content, picture } = req.body;
-    const updateTweetId = await models.update(tweetId, content, picture);
-    const updatedTweet = await models.get(updateTweetId);
+    const updateTweetId = await tweetmodels.update(tweetId, content, picture);
+    const updatedTweet = await tweetmodels.get(updateTweetId);
 
     res.status(201).json({ updatedTweet });
   },
@@ -69,7 +70,7 @@ module.exports = {
       return res.status(401).json({ message: 'tweet params not found' });
     }
 
-    const tweet = await models.get(tweetId);
+    const tweet = await tweetmodels.get(tweetId);
 
     if (!tweet) {
       return res.status(404).json({ message: 'tweet is not found' });
@@ -79,7 +80,8 @@ module.exports = {
       return res.status(401).json({ message: '유저가 일치 하지 않습니다.' });
     }
 
-    await models.delete(tweetId);
+    await replymodels.deleteAll(tweetId);
+    await tweetmodels.delete(tweetId);
 
     res.status(201).json({ message: 'tweet is deleted' });
   },
